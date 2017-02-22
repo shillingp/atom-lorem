@@ -12,10 +12,10 @@
       "label": "Packages",
       "submenu": [
         {
-          "label": "lorem",
+          "label": "Lorem",
           "submenu": [
             {
-              "label": "Toggle",
+              "label": "Generate Lorem",
               "command": "lorem:catch-command"
             }
           ]

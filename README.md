@@ -90,6 +90,8 @@ can also be entered with the number portion in front of the option
 
 
 
+### License
+MIT License: See `LICENSE` for more details.
 
 [atom]: https://atom.io
 [git:lkcampbell]: https://github.com/lkcampbell

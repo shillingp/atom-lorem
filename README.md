@@ -26,15 +26,21 @@ If the `count` option is not provided, one paragraph will be inserted.
 If the type of Lorem Ipsum text is not specified, the extension will generate
 paragraphs by default.
 
+![Paragraph Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-p.gif?raw=true)
+
 **_s[count]:** Inserts a certain number of random Lorem Ipsum sentences into
 the current document. The `count` option indicates how many sentences to insert.
 For example, `lorem_s3` will insert three sentences into the document.
 If the `count` option is not provided, one sentence will be inserted.
 
+![Sentence Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-s.gif?raw=true)
+
 **_w[count]:** Inserts a certain number of random Lorem Ipsum words into the
 current document. The `count` option indicates how many words to insert.
 For example, `lorem_w40` will insert 40 random words into the document.
 If the `count` option is not provided, one word will be inserted.
+
+![Word Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-w.gif?raw=true)
 
 **_short:** Makes all sentences or paragraphs short length.
 
@@ -46,6 +52,8 @@ as the default option.
 
 **_vlong:** Makes all sentences or paragraphs very long length.
 
+![Sizes Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-sizes.gif?raw=true)
+
 **_nowrap:** Inserts Lorem Ipsum text without any word wrapping.
 
 **_wrap[width]:** Word wraps Lorem Ipsum text using the specified `width`
@@ -53,6 +61,8 @@ For example, `lorem_wrap40` will wrap the text at 40 characters. If a word wrap
 option is not provided, the extension will use `_wrap80` as the default option.
 If you want to turn word wrap off, use the `_nowrap` option.  This option has
 no effect on the `_link`, `_ol`, or `_ul` options.
+
+![Wrapping Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-wraps.gif?raw=true)
 
 **_link[count]:** Inserts a certain number of random Lorem Ipsum HTML links into
 the current document. The HTML link will always point to http://www.brackets.io.

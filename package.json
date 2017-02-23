@@ -2,17 +2,20 @@
   "name": "lorem",
   "main": "./lib/lorem",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "Simple lorem ipsum text generator with added functionality",
   "keywords": [
+    "lorem",
+    "lorem-ipsum",
+    "text",
+    "generator"
   ],
   "activationCommands": {
     "atom-workspace": "lorem:catch-command"
   },
-  "repository": "https://github.com/atom/lorem",
+  "repository": "https://github.com/shillingp/atom-lorem",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

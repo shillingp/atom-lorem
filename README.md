@@ -88,7 +88,12 @@ all other options will be ignored and no Lorem Ipsum text will be generated.
 can also be entered with the number portion in front of the option
 (i.e. `_3p`, `_40wrap`) and it will work the same way.
 
+---
 
+### Contributing
+This is my first atom package and I welcome all the help/support/feedback i can get so if you have any or would like to make a pull-request please feel free. Many thanks.
+
+---
 
 ### License
 MIT License: See `LICENSE` for more details.

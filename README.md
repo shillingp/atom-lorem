@@ -4,7 +4,8 @@ A simple and powerful lorem ipsum generator for [Atom editor][atom].
 
 Ported with love from the [Lorem Ipsum][git-repo:brackets-lorem-ipsum] brackets plugin by [lkcampbell][git:lkcampbell]
 
-![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+![Lorem Overview](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-overview.gif?raw=true)
+
 
 ---
 

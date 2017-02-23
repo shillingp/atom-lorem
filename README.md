@@ -10,7 +10,8 @@ Ported with love from the [Lorem Ipsum][git-repo:brackets-lorem-ipsum] brackets 
 ---
 
 ### How to Use
-For basic lorem ipsum text using the default settings just use the keybind `alt+l`.
+
+> **Important**: For basic lorem ipsum text using the default settings just use the keybind `alt+l`.
 
 You can also add options to the lorem command with an underscore character followed by the option name. For example: `lorem_wrap40`. Multiple options can also be chained together. For example, typing `lorem_html_wrap40` and then pressing the `alt+l` will give you html formatted Lorem Ipsum text and a word wrap width of 40 characters. Using an unrecognized option will insert an error message into the document. Using more than one underscore character in a row (e.g. `lorem__html___p3`) will insert an error message into the document.
 

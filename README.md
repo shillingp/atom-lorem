@@ -73,6 +73,8 @@ will insert three links, separated by page breaks, into the document. If the
 formatted HTML, the `_link` option ignores any `_wrap` options and is always
 set to `_nowrap`.
 
+![Links Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-links.gif?raw=true)
+
 **_ol[count], _ul[count]:** Inserts a random Lorem Ipsum HTML list into
 the current document. Use `_ol` for an ordered list and `_ul` for an unordered
 list. The `count` option indicates how many list items to insert. For example,
@@ -81,11 +83,15 @@ If the `count` option is not provided, a list with one item will be inserted.
 To avoid badly formatted HTML, both of these options ignore any `_wrap` options
 and are always set to `_nowrap`.
 
+![Lists Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-lists.gif?raw=true)
+
 **_html:** Wraps Lorem Ipsum text in `<p></p>` tags so it displays correctly in
 HTML. For options `_p`, `_s`, and `_fortune` each individual paragraph, sentence,
 or fortune is wrapped. For options `_w` and `_link`, the entire collection of
 words or links is wrapped. This option is not available for lists since lists
 are not inline elements.
+
+![HTML Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-html.gif?raw=true)
 
 **_?, _help:** Displays help for the Lorem Ipsum extension.  If this option is used,
 all other options will be ignored and no Lorem Ipsum text will be generated.

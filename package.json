@@ -1,7 +1,7 @@
 {
   "name": "lorem",
   "main": "./lib/lorem",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Simple lorem ipsum text generator with added functionality",
   "keywords": [
     "lorem",

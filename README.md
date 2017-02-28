@@ -20,6 +20,10 @@ You can also add options to the lorem command with an underscore character follo
 ---
 
 ##### List of Current Options
+**`alt+l`:** Simply using the keybind `alt+l` will insert lorem ipsum text based on your personal configuration. The configuration can be changed in the package settings from the package menu.
+
+![Basic Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-basic.gif?raw=true)
+
 **_p[count]:** Inserts a certain number of random Lorem Ipsum paragraphs into
 the current document. The `count` option indicates how many paragraphs to insert.
 For example, `lorem_p3` will insert three paragraphs into the document.
@@ -99,6 +103,18 @@ all other options will be ignored and no Lorem Ipsum text will be generated.
 > **Note:** Any option that has a number associated with it (e.g. `_p3`, `_wrap40`)
 can also be entered with the number portion in front of the option
 (i.e. `_3p`, `_40wrap`) and it will work the same way.
+
+---
+
+### Other Features
+
+**Comment Support:** The package allows for text to be inserted as a comment. Just use the keybind or type your command as a comment and it will add commented lorem text. **Note: Block comments are not supported**.
+
+![Comment Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-comments.gif?raw=true)
+
+**Multi Cursor Support:** Support for multiple cursors has been added. If the cursors are next to valid commands then it will parse all of your lorem text. *Woo many lorems*.
+
+![Multi Cursor Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-multi.gif?raw=true)
 
 ---
 

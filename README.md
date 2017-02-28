@@ -119,7 +119,7 @@ can also be entered with the number portion in front of the option
 ---
 
 ### Contributing
-This is my first atom package and I welcome all the help/support/feedback i can get so if you have any or would like to make a pull-request please feel free. Many thanks.
+This is my first atom package and I welcome all the help/support/feedback I can get so if you have any or would like to make a pull-request please feel free. If you do want to contribute I am using the `prettier` package to format the code. Many thanks.
 
 ---
 

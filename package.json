@@ -9,9 +9,7 @@
     "text",
     "generator"
   ],
-  "activationCommands": {
-    "atom-workspace": "lorem:catch-command"
-  },
+  "activationCommands": {},
   "repository": "https://github.com/shillingp/atom-lorem",
   "license": "MIT",
   "engines": {

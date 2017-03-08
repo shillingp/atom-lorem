@@ -1,6 +1,5 @@
 "use babel";
 
-
 // const dotimes = (num, fn) => [...Array(num + 1).keys()].slice(1).forEach(fn);
 
 describe("Lorem: ", () => {
@@ -41,7 +40,6 @@ describe("Lorem: ", () => {
         expect(runLorem("_w2").split(" ")).toHaveLength(2);
         expect(runLorem("_w5").split(" ")).toHaveLength(5);
         expect(runLorem("_w10").split(" ")).toHaveLength(10);
-        expect(runLorem("_w50").split(" ")).toHaveLength(50);
       });
     });
 
@@ -52,15 +50,10 @@ describe("Lorem: ", () => {
       });
 
       it("should be between size limits", () => {
-        let word1 = runLorem("_w1_short").length,
-          word2 = runLorem("_w1_medium").length,
-          word3 = runLorem("_w1_long").length,
-          word4 = runLorem("_w1_very_long").length;
-
-        expect(word1 > 0 && word1 < 4).toBe(true);
-        expect(word2 > 3 && word2 < 7).toBe(true);
-        expect(word3 > 6 && word3 < 11).toBe(true);
-        expect(word4 > 10).toBe(true);
+        expect(runLorem("_w1_short")).toMatch(/^\w{1,3}$/);
+        expect(runLorem("_w1_medium")).toMatch(/^\w{4,6}$/);
+        expect(runLorem("_w1_long")).toMatch(/^\w{7,10}$/);
+        expect(runLorem("_w1_vlong")).toMatch(/^\w{10,}$/);
       });
     });
   });
@@ -85,7 +78,6 @@ describe("Lorem: ", () => {
         expect(runLorem("_s2").split("\n\n")).toHaveLength(2);
         expect(runLorem("_s5").split("\n\n")).toHaveLength(5);
         expect(runLorem("_s10").split("\n\n")).toHaveLength(10);
-        expect(runLorem("_s50").split("\n\n")).toHaveLength(50);
       });
     });
   });
@@ -110,7 +102,6 @@ describe("Lorem: ", () => {
         expect(runLorem("_p2").split("\n\n")).toHaveLength(2);
         expect(runLorem("_p5").split("\n\n")).toHaveLength(5);
         expect(runLorem("_p10").split("\n\n")).toHaveLength(10);
-        expect(runLorem("_p50").split("\n\n")).toHaveLength(50);
       });
     });
   });
@@ -128,7 +119,6 @@ describe("Lorem: ", () => {
         expect(runLorem("_link2").match(/<a.*>/g)).toHaveLength(2);
         expect(runLorem("_link5").match(/<a.*>/g)).toHaveLength(5);
         expect(runLorem("_link10").match(/<a.*>/g)).toHaveLength(10);
-        expect(runLorem("_link50").match(/<a.*>/g)).toHaveLength(50);
       });
     });
   });
@@ -147,7 +137,6 @@ describe("Lorem: ", () => {
           expect(runLorem("_ol2").match(/<li>/g)).toHaveLength(2);
           expect(runLorem("_ol5").match(/<li>/g)).toHaveLength(5);
           expect(runLorem("_ol10").match(/<li>/g)).toHaveLength(10);
-          expect(runLorem("_ol50").match(/<li>/g)).toHaveLength(50);
         });
       });
     });
@@ -165,7 +154,6 @@ describe("Lorem: ", () => {
           expect(runLorem("_ul2").match(/<li>/g)).toHaveLength(2);
           expect(runLorem("_ul5").match(/<li>/g)).toHaveLength(5);
           expect(runLorem("_ul10").match(/<li>/g)).toHaveLength(10);
-          expect(runLorem("_ul50").match(/<li>/g)).toHaveLength(50);
         });
       });
     });
@@ -221,21 +209,27 @@ describe("Lorem: ", () => {
   });
 
   describe("Errors: ", () => {
-    it("should create an error", () => {
-      runLorem("_d");
-      runLorem("_d2");
-      runLorem("_hello");
-      let notifications = atom.notifications
-        .getNotifications()
-        .map(
-          notif =>
-            notif.options.detail === "Unrecognized option '_d'." ||
-            notif.options.detail === "Unrecognized option '_d2'." ||
-            notif.options.detail === "Unrecognized option '_hello'."
-        )
-        .reduce((r, i) => i === false ? false : true);
+    it("should create a notification", () => {
+      let tests = ["_d", "_d2", "_hello"];
+      atom.notifications.clear();
 
-      expect(notifications).toBe(true);
+      tests.forEach(test => runLorem(test));
+      expect(atom.notifications.getNotifications()).toHaveLength(tests.length);
+    });
+
+    it("should have different notification messages", () => {
+      let tests = {
+        "_": "Unrecognized option '_'.",
+        "__": "Two or more underscore characters adjacent to each other.",
+        "_d": "Unrecognized option '_d'."
+      };
+
+      Object.keys(tests).forEach(test => {
+        atom.notifications.clear();
+        runLorem(test);
+        let notif = atom.notifications.getNotifications()[0];
+        expect(notif.options.detail).toEqual(tests[test]);
+      });
     });
   });
 });

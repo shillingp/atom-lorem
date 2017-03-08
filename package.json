@@ -6,6 +6,7 @@
   "keywords": [
     "lorem",
     "lorem-ipsum",
+    "ipsum",
     "text",
     "generator"
   ],
@@ -15,5 +16,8 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.5.3"
+  }
 }

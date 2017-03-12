@@ -70,7 +70,7 @@ no effect on the `_link`, `_ol`, or `_ul` options.
 ![Wrapping Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-wraps.gif?raw=true)
 
 **_link[count]:** Inserts a certain number of random Lorem Ipsum HTML links into
-the current document. The HTML link will always point to http://www.brackets.io.
+the current document. The HTML link will always point to https://atom.io/.
 The `count` option indicates how many links to insert. For example, `lorem_link3`
 will insert three links, separated by page breaks, into the document. If the
 `count` option is not provided, one link will be inserted. To avoid badly

@@ -1,12 +1,12 @@
 "use babel";
 
-// const dotimes = (num, fn) => [...Array(num + 1).keys()].slice(1).forEach(fn);
+import { hasCommand } from "./spec-helper";
 
 describe("Lorem: ", () => {
-  let workspaceElement, editor, editorElement, loremIpsum;
+  let workspaceElement, editor, editorElement = [];
 
-  let runLorem = command => {
-    editor.setText("lorem" + command);
+  const runLorem = command => {
+    editor.setText(command ? "lorem" + command : "");
     atom.commands.dispatch(editorElement, "lorem:catch-command");
     return editor.getText();
   };
@@ -16,23 +16,54 @@ describe("Lorem: ", () => {
     jasmine.attachToDOM(workspaceElement);
 
     waitsForPromise(() => {
-      return atom.packages
-        .activatePackage("lorem")
-        .then(pack => loremIpsum = pack.mainModule);
+      return Promise.all([
+        atom.packages.activatePackage("lorem"),
+        atom.workspace.open().then(e => {
+          editor = e;
+          editorElement = atom.views.getView(editor);
+        }),
+      ]);
+    });
+  });
+
+  afterEach(() => {
+    atom.config.unset("lorem");
+  });
+
+  describe("activate", () => {
+    it("should create the command 'catch-command'", () => {
+      expect(hasCommand(editorElement, "lorem:catch-command")).toBeTruthy();
+    });
+  });
+
+  describe("deactivate", () => {
+    beforeEach(() => {
+      atom.packages.deactivatePackage("lorem");
     });
 
-    waitsForPromise(() => {
-      return atom.workspace.open().then(_editor => {
-        editor = _editor;
-        editorElement = atom.views.getView(editor);
-      });
+    it("should destroy commands", () => {
+      expect(hasCommand(editorElement, "lorem:catch-command")).toBeFalsy();
+    });
+  });
+
+  describe("Argument Order: ", () => {
+    const tests = ["w", "s", "p", "ol", "ul", "link"];
+
+    it("should not fail to run if string is first", () => {
+      tests.forEach(test =>
+        expect(runLorem(`_${test}2`)).not.toMatch(/^lorem/));
+    });
+
+    it("should not fail to parse if number is first", () => {
+      tests.forEach(test =>
+        expect(runLorem(`_2${test}`)).not.toMatch(/^lorem/));
     });
   });
 
   describe("Words:", () => {
     describe("When a count argument is given", () => {
       it("should generate a single word if no argument", () => {
-        let word = runLorem("_w").split(" ");
+        const word = runLorem("_w").split(" ");
         expect(word).toHaveLength(1);
       });
 
@@ -45,7 +76,7 @@ describe("Lorem: ", () => {
 
     describe("When a size argument is given", () => {
       it("should be between positive finite number", () => {
-        let word = runLorem("_w1").length;
+        const word = runLorem("_w1").length;
         expect(word > 0 && isFinite(word));
       });
 
@@ -61,16 +92,17 @@ describe("Lorem: ", () => {
   describe("Sentences: ", () => {
     describe("When a single sentence is generated", () => {
       it("should have a capital letter and end in a period", () => {
-        let sentence = runLorem("_s1"), firstChar = sentence.charAt(0);
+        const sentence = runLorem("_s1");
+        const firstChar = sentence.charAt(0);
 
-        expect(firstChar === firstChar.toUpperCase()).toBe(true);
+        expect(firstChar === firstChar.toUpperCase()).toBeTruthy();
         expect(sentence.charAt(sentence.length - 1)).toBe(".");
       });
     });
 
     describe("When a count argument is given", () => {
       it("should generate a single sentence if no argument given", () => {
-        let sentence = runLorem("_s1").split("\n\n");
+        const sentence = runLorem("_s1").split("\n\n");
         expect(sentence).toHaveLength(1);
       });
 
@@ -85,16 +117,17 @@ describe("Lorem: ", () => {
   describe("Paragraphs: ", () => {
     describe("When a single paragraph is generated", () => {
       it("should have a capital letter and end in a period", () => {
-        let paragraph = runLorem("_p1"), firstChar = paragraph.charAt(0);
+        const paragraph = runLorem("_p1");
+        const firstChar = paragraph.charAt(0);
 
-        expect(firstChar === firstChar.toUpperCase()).toBe(true);
+        expect(firstChar === firstChar.toUpperCase()).toBeTruthy();
         expect(paragraph.charAt(paragraph.length - 1)).toBe(".");
       });
     });
 
     describe("When a count argument is given", () => {
       it("should generate a single paragraph if no argument given", () => {
-        let paragraph = runLorem("_p1").split("\n\n");
+        const paragraph = runLorem("_p1").split("\n\n");
         expect(paragraph).toHaveLength(1);
       });
 
@@ -108,7 +141,7 @@ describe("Lorem: ", () => {
 
   describe("Links: ", () => {
     it("should begin and end with a tags", () => {
-      let link = runLorem("_link1");
+      const link = runLorem("_link1");
 
       expect(link).toMatch(/^<a href=".*">/g);
       expect(link).toMatch(/<\/a>$/g);
@@ -120,13 +153,19 @@ describe("Lorem: ", () => {
         expect(runLorem("_link5").match(/<a.*>/g)).toHaveLength(5);
         expect(runLorem("_link10").match(/<a.*>/g)).toHaveLength(10);
       });
+
+      it("should have a <br/> tag between each list item", () => {
+        expect(runLorem("_link2").match(/<br\/>/g)).toHaveLength(1);
+        expect(runLorem("_link5").match(/<br\/>/g)).toHaveLength(4);
+        expect(runLorem("_link10").match(/<br\/>/g)).toHaveLength(9);
+      });
     });
   });
 
   describe("Lists: ", () => {
     describe("Ordered Lists: ", () => {
       it("should begin and end with ol tags", () => {
-        let list = runLorem("_ol1");
+        const list = runLorem("_ol1");
 
         expect(list).toMatch(/^<ol>/g);
         expect(list).toMatch(/<\/ol>$/g);
@@ -137,13 +176,17 @@ describe("Lorem: ", () => {
           expect(runLorem("_ol2").match(/<li>/g)).toHaveLength(2);
           expect(runLorem("_ol5").match(/<li>/g)).toHaveLength(5);
           expect(runLorem("_ol10").match(/<li>/g)).toHaveLength(10);
+
+          expect(runLorem("_2ol").match(/<li>/g)).toHaveLength(2);
+          expect(runLorem("_5ol").match(/<li>/g)).toHaveLength(5);
+          expect(runLorem("_10ol").match(/<li>/g)).toHaveLength(10);
         });
       });
     });
 
     describe("Unordered Lists: ", () => {
       it("should begin and end with ol tags", () => {
-        let list = runLorem("_ul1");
+        const list = runLorem("_ul1");
 
         expect(list).toMatch(/^<ul>/);
         expect(list).toMatch(/<\/ul>$/);
@@ -154,6 +197,10 @@ describe("Lorem: ", () => {
           expect(runLorem("_ul2").match(/<li>/g)).toHaveLength(2);
           expect(runLorem("_ul5").match(/<li>/g)).toHaveLength(5);
           expect(runLorem("_ul10").match(/<li>/g)).toHaveLength(10);
+
+          expect(runLorem("_2ul").match(/<li>/g)).toHaveLength(2);
+          expect(runLorem("_5ul").match(/<li>/g)).toHaveLength(5);
+          expect(runLorem("_10ul").match(/<li>/g)).toHaveLength(10);
         });
       });
     });
@@ -203,14 +250,14 @@ describe("Lorem: ", () => {
 
   describe("Help: ", () => {
     it("should not change the editor", () => {
-      expect(runLorem("_help")).toEqual("lorem_help");
-      expect(runLorem("_?")).toEqual("lorem_?");
+      expect(runLorem("_help")).toMatch(/^lorem/);
+      expect(runLorem("_?")).toMatch(/^lorem/);
     });
   });
 
   describe("Errors: ", () => {
-    it("should create a notification", () => {
-      let tests = ["_d", "_d2", "_hello"];
+    it("should create a notification for each error", () => {
+      const tests = ["_d", "_d2", "_2d", "_hello"];
       atom.notifications.clear();
 
       tests.forEach(test => runLorem(test));
@@ -218,18 +265,82 @@ describe("Lorem: ", () => {
     });
 
     it("should have different notification messages", () => {
-      let tests = {
-        "_": "Unrecognized option '_'.",
-        "__": "Two or more underscore characters adjacent to each other.",
-        "_d": "Unrecognized option '_d'."
+      const tests = {
+        _: "Unrecognized option '_'.",
+        __: "Two or more underscore characters adjacent to each other.",
+        _d: "Unrecognized option '_d'.",
       };
 
       Object.keys(tests).forEach(test => {
         atom.notifications.clear();
         runLorem(test);
-        let notif = atom.notifications.getNotifications()[0];
+        const notif = atom.notifications.getNotifications()[0];
         expect(notif.options.detail).toEqual(tests[test]);
       });
+    });
+
+    it("should not change anything if it causes an error", () => {
+      const tests = ["_", "__", "_d", "_2s2", "_p2_hello", "_lorem_p"];
+
+      tests.forEach(test => {
+        expect(runLorem(test)).toMatch(/^lorem/);
+      });
+    });
+  });
+
+  describe("Chaining arguments: ", () => {
+    it("should prioritise rightmost argument", () => {
+      expect(runLorem("_nowrap_wrap10")).toMatch(/\n/g);
+      expect(runLorem("_wrap10_nowrap")).not.toMatch(/\n/g);
+
+      expect(runLorem("_w5_w1")).toMatch(/^\w+$/);
+      expect(runLorem("_w1_w5")).not.toMatch(/^\w+$/);
+    });
+
+    it("should parse and run multiple conflicting arguments", () => {
+      const testStr = runLorem("_7s_w2_short_vlong_html");
+
+      expect(testStr).not.toMatch(/^lorem/);
+      expect(testStr).toMatch(/^<p>/);
+      expect(testStr).toMatch(/<\/p>$/);
+      expect(testStr).toMatch(/\w+ \w+/);
+
+      expect(testStr.match(/(\w+) \w+/)[1].length).toBeGreaterThan(10);
+    });
+  });
+
+  describe("Configuration: ", () => {
+    const updateConfig = (path, newProps) =>
+      atom.config.set(path, { ...atom.config.get(path), ...newProps });
+
+    it("should use the defaults to generate text", () => {
+      updateConfig("lorem.defaults", {
+        unitType: "Word",
+        unitCount: 3,
+        unitSize: "Very Long",
+      });
+      expect(runLorem()).toMatch(/^(?:\w{10,} ?){3}$/);
+
+      updateConfig("lorem.defaults", { isHTML: true });
+      expect(runLorem()).toMatch(
+        /^<p>[\s\n\t]+(?:(?:\w{10,} ?){3})[\s\n\t]+<\/p>$/
+      );
+    });
+
+    it("should only allow the seperators defined in config", () => {
+      updateConfig("lorem.commands", { splitRegExp: ["_", "-"] });
+      expect(runLorem("_w1")).not.toMatch(/^lorem/);
+      expect(runLorem("-w1")).not.toMatch(/^lorem/);
+      expect(runLorem(":w1")).toMatch(/^lorem/);
+      expect(runLorem("+w1")).toMatch(/^lorem/);
+
+      // RegExp characters ([, ], /, {, }, (, ), *, +, ?, ., \, ^, $) not |
+      // should be properly escaped and should be safe to use as a splitter
+      updateConfig("lorem.commands", { splitRegExp: [":", "+"] });
+      expect(runLorem("_w1")).toMatch(/^lorem/);
+      expect(runLorem("-w1")).toMatch(/^lorem/);
+      expect(runLorem(":w1")).not.toMatch(/^lorem/);
+      expect(runLorem("+w1")).not.toMatch(/^lorem/);
     });
   });
 });

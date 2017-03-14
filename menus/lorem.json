@@ -15,8 +15,8 @@
           "label": "Lorem",
           "submenu": [
             {
-              "label": "Generate Lorem",
-              "command": "lorem:catch-command"
+              "label": "Open Settings",
+              "command": "lorem:open-config"
             }
           ]
         }

@@ -24,34 +24,21 @@ You can also add options to the lorem command with an underscore character follo
 
 ![Basic Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-basic.gif?raw=true)
 
-**_p[count]:** Inserts a certain number of random Lorem Ipsum paragraphs into
-the current document. The `count` option indicates how many paragraphs to insert.
-For example, `lorem_p3` will insert three paragraphs into the document.
-If the `count` option is not provided, one paragraph will be inserted.
-If the type of Lorem Ipsum text is not specified, the extension will generate
-paragraphs by default.
+**_p[count]:** Inserts a certain number of random Lorem Ipsum paragraphs into the current document. The `count` option indicates how many paragraphs to insert. For example, `lorem_p3` will insert three paragraphs into the document. If the `count` option is not provided, one paragraph will be inserted. If the type of Lorem Ipsum text is not specified, the extension will generate paragraphs by default.
 
 ![Paragraph Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-p.gif?raw=true)
 
-**_s[count]:** Inserts a certain number of random Lorem Ipsum sentences into
-the current document. The `count` option indicates how many sentences to insert.
-For example, `lorem_s3` will insert three sentences into the document.
-If the `count` option is not provided, one sentence will be inserted.
+**_s[count]:** Inserts a certain number of random Lorem Ipsum sentences into the current document. The `count` option indicates how many sentences to insert. For example, `lorem_s3` will insert three sentences into the document. If the `count` option is not provided, one sentence will be inserted.
 
 ![Sentence Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-s.gif?raw=true)
 
-**_w[count]:** Inserts a certain number of random Lorem Ipsum words into the
-current document. The `count` option indicates how many words to insert.
-For example, `lorem_w40` will insert 40 random words into the document.
-If the `count` option is not provided, one word will be inserted.
+**_w[count]:** Inserts a certain number of random Lorem Ipsum words into the current document. The `count` option indicates how many words to insert. For example, `lorem_w40` will insert 40 random words into the document. If the `count` option is not provided, one word will be inserted.
 
 ![Word Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-w.gif?raw=true)
 
 **_short:** Makes all sentences or paragraphs short length.
 
-**_medium:** Makes all sentences or paragraphs medium length.
-If no size options are provided, the extension will use `_medium`
-as the default option.
+**_medium:** Makes all sentences or paragraphs medium length. If no size options are provided, the extension will use `_medium` as the default option.
 
 **_long:** Makes all sentences or paragraphs long length.
 
@@ -61,44 +48,24 @@ as the default option.
 
 **_nowrap:** Inserts Lorem Ipsum text without any word wrapping.
 
-**_wrap[width]:** Word wraps Lorem Ipsum text using the specified `width`
-For example, `lorem_wrap40` will wrap the text at 40 characters. If a word wrap
-option is not provided, the extension will use `_wrap80` as the default option.
-If you want to turn word wrap off, use the `_nowrap` option.  This option has
-no effect on the `_link`, `_ol`, or `_ul` options.
+**_wrap[width]:** Word wraps Lorem Ipsum text using the specified `width`. For example, `lorem_wrap40` will wrap the text at 40 characters. If a word wrap option is not provided, the extension will use `_wrap80` as the default option. If you want to turn word wrap off, use the `_nowrap` option.  This option has no effect on the `_link`, `_ol`, or `_ul` options.
 
 ![Wrapping Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-wraps.gif?raw=true)
 
-**_link[count]:** Inserts a certain number of random Lorem Ipsum HTML links into
-the current document. The HTML link will always point to https://atom.io/.
-The `count` option indicates how many links to insert. For example, `lorem_link3`
-will insert three links, separated by page breaks, into the document. If the
-`count` option is not provided, one link will be inserted. To avoid badly
-formatted HTML, the `_link` option ignores any `_wrap` options and is always
-set to `_nowrap`.
+**_link[count]:** Inserts a certain number of random Lorem Ipsum HTML links into the current document. The HTML link will always point to https://atom.io/. The `count` option indicates how many links to insert. For example, `lorem_link3` will insert three links, separated by page breaks, into the document. If the `count` option is not provided, one link will be inserted. To avoid badly formatted HTML, the `_link` option ignores any `_wrap` options and is always set to `_nowrap`.
 
 ![Links Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-links.gif?raw=true)
 
-**_ol[count], _ul[count]:** Inserts a random Lorem Ipsum HTML list into
-the current document. Use `_ol` for an ordered list and `_ul` for an unordered
-list. The `count` option indicates how many list items to insert. For example,
-`lorem_ol3` will insert an ordered list with three list items into the document.
-If the `count` option is not provided, a list with one item will be inserted.
-To avoid badly formatted HTML, both of these options ignore any `_wrap` options
-and are always set to `_nowrap`.
+**_ol[count], _ul[count]:** Inserts a random Lorem Ipsum HTML list into the current document. Use `_ol` for an ordered list and `_ul` for an unordered list. The `count` option indicates how many list items to insert. For example, `lorem_ol3` will insert an ordered list with three list items into the document. If the `count` option is not provided, a list with one item will be inserted. To avoid badly formatted HTML, both of these options ignore any `_wrap` options and are always set to `_nowrap`.
 
 ![Lists Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-lists.gif?raw=true)
 
-**_html:** Wraps Lorem Ipsum text in `<p></p>` tags so it displays correctly in
-HTML. For options `_p`, `_s`, and `_fortune` each individual paragraph, sentence,
-or fortune is wrapped. For options `_w` and `_link`, the entire collection of
-words or links is wrapped. This option is not available for lists since lists
+**_html:** Wraps Lorem Ipsum text in `<p></p>` tags so it displays correctly in HTML. For options `_p` and `_s`each individual paragraph or sentence is wrapped. For options `_w` and `_link`, the entire collection of words or links is wrapped. This option is not available for lists since lists
 are not inline elements.
 
 ![HTML Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-html.gif?raw=true)
 
-**_?, _help:** Displays help for the Lorem Ipsum extension.  If this option is used,
-all other options will be ignored and no Lorem Ipsum text will be generated.
+**_?, _help:** Displays help for the Lorem Ipsum extension.  If this option is used, all other options will be ignored and no Lorem Ipsum text will be generated.
 
 > **Note:** Any option that has a number associated with it (e.g. `_p3`, `_wrap40`)
 can also be entered with the number portion in front of the option

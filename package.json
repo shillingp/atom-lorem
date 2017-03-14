@@ -16,8 +16,5 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "jasmine": "^2.5.3"
-  }
+  "dependencies": {}
 }

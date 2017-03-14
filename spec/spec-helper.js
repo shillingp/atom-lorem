@@ -1,11 +1,9 @@
 "use babel";
 
-// const dotimes = (num, fn) => [...Array(num + 1).keys()].slice(1).forEach(fn);
-
 /**
  * @param {HTMLElement} element
  * @param {String} name
- * @returns {Boolean} indicating whether the command is present on `element`
+ * @returns {Boolean} indicating whether the command `name` is present on `element`
  */
 export function hasCommand(element, name) {
   return !!atom.commands
@@ -17,5 +15,5 @@ export function hasCommand(element, name) {
  * @param {Integer} num
  * @param {Function} fn
  */
-export const dotimes = (num, fn) =>
+export const doTimes = (num, fn) =>
   [...Array(num + 1).keys()].slice(1).forEach(fn);

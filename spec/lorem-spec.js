@@ -3,8 +3,12 @@
 import { hasCommand } from "./spec-helper";
 
 describe("Lorem: ", () => {
-  let workspaceElement, editor, editorElement = [];
+  let workspaceElement, editor, editorElement;
 
+  /**
+   * @param {String} command
+   * @returns {String} text content of editor
+   */
   const runLorem = command => {
     editor.setText(command ? "lorem" + command : "");
     atom.commands.dispatch(editorElement, "lorem:catch-command");
@@ -47,7 +51,7 @@ describe("Lorem: ", () => {
   });
 
   describe("Argument Order: ", () => {
-    const tests = ["w", "s", "p", "ol", "ul", "link"];
+    const tests = ["w", "s", "p", "ol", "ul", "link", "wrap"];
 
     it("should not fail to run if string is first", () => {
       tests.forEach(test =>
@@ -257,7 +261,7 @@ describe("Lorem: ", () => {
 
   describe("Errors: ", () => {
     it("should create a notification for each error", () => {
-      const tests = ["_d", "_d2", "_2d", "_hello"];
+      const tests = ["_d", "_d2", "_2d", "_error"];
       atom.notifications.clear();
 
       tests.forEach(test => runLorem(test));
@@ -310,10 +314,15 @@ describe("Lorem: ", () => {
   });
 
   describe("Configuration: ", () => {
+    /**
+     * @param {String} path
+     * @param {Object} newProps
+     * @returns {Boolean}
+     */
     const updateConfig = (path, newProps) =>
       atom.config.set(path, { ...atom.config.get(path), ...newProps });
 
-    it("should use the defaults to generate text", () => {
+    it("should use the defaults to generate text", test => {
       updateConfig("lorem.defaults", {
         unitType: "Word",
         unitCount: 3,
@@ -327,20 +336,44 @@ describe("Lorem: ", () => {
       );
     });
 
-    it("should only allow the seperators defined in config", () => {
-      updateConfig("lorem.commands", { splitRegExp: ["_", "-"] });
-      expect(runLorem("_w1")).not.toMatch(/^lorem/);
-      expect(runLorem("-w1")).not.toMatch(/^lorem/);
-      expect(runLorem(":w1")).toMatch(/^lorem/);
-      expect(runLorem("+w1")).toMatch(/^lorem/);
+    describe("When seperators changed in config", () => {
+      it("should only allow the seperators defined in config", () => {
+        updateConfig("lorem.commands", { splitRegExp: ["_", "-"] });
+        expect(runLorem("_w1")).not.toMatch(/^lorem/);
+        expect(runLorem("-w1")).not.toMatch(/^lorem/);
+        expect(runLorem(":w1")).toMatch(/^lorem/);
+        expect(runLorem(".w1")).toMatch(/^lorem/);
 
-      // RegExp characters ([, ], /, {, }, (, ), *, +, ?, ., \, ^, $) not |
-      // should be properly escaped and should be safe to use as a splitter
-      updateConfig("lorem.commands", { splitRegExp: [":", "+"] });
-      expect(runLorem("_w1")).toMatch(/^lorem/);
-      expect(runLorem("-w1")).toMatch(/^lorem/);
-      expect(runLorem(":w1")).not.toMatch(/^lorem/);
-      expect(runLorem("+w1")).not.toMatch(/^lorem/);
+        updateConfig("lorem.commands", { splitRegExp: [":", "."] });
+        expect(runLorem("_w1")).toMatch(/^lorem/);
+        expect(runLorem("-w1")).toMatch(/^lorem/);
+        expect(runLorem(":w1")).not.toMatch(/^lorem/);
+        expect(runLorem(".w1")).not.toMatch(/^lorem/);
+      });
+
+      it("should allow all regex symbols as seperators", () => {
+        const regexSymbols = [
+          "[",
+          "]",
+          "/",
+          "{",
+          "}",
+          "(",
+          ")",
+          "*",
+          "+",
+          "?",
+          ".",
+          "\\",
+          "^",
+          "$",
+          "|",
+        ];
+        updateConfig("lorem.commands", { splitRegExp: regexSymbols });
+
+        regexSymbols.forEach(symbol =>
+          expect(runLorem(`${symbol}w2`)).not.toMatch(/^lorem/));
+      });
     });
   });
 });

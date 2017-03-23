@@ -1,6 +1,6 @@
 "use babel";
 
-import { hasCommand } from "./spec-helper";
+import { hasCommand, doTimes } from "./spec-helper";
 
 describe("Lorem: ", () => {
   let workspaceElement, editor, editorElement;
@@ -54,14 +54,13 @@ describe("Lorem: ", () => {
     describe("Words:", () => {
       describe("When a count argument is given", () => {
         it("should generate a single word if no argument", () => {
-          const word = runLorem("_w").split(" ");
-          expect(word).toHaveLength(1);
+          expect(runLorem("_w")).toMatch(/^\w+$/);
         });
 
         it("should generate x number of words", () => {
-          expect(runLorem("_w2").split(" ")).toHaveLength(2);
-          expect(runLorem("_w5").split(" ")).toHaveLength(5);
-          expect(runLorem("_w10").split(" ")).toHaveLength(10);
+          expect(runLorem("_w2")).toMatch(/^(?:\w+ ?){2}$/);
+          expect(runLorem("_w5")).toMatch(/^(?:\w+ ?){5}$/);
+          expect(runLorem("_w10")).toMatch(/^(?:\w+ ?){10}$/);
         });
       });
 
@@ -197,8 +196,13 @@ describe("Lorem: ", () => {
       });
     });
 
-    describe("HTML: ", () => {
+    fdescribe("HTML: ", () => {
       describe("When used with word, sentence & paragraph", () => {
+        it("should start and end with p tags", () => {
+          expect(runLorem("_p1_html")).toMatch(/^<p>/)
+          expect(runLorem("_p1_html")).toMatch(/<\/p>$/)
+        })
+
         it("should only wrap words once", () => {
           expect(runLorem("_w1_html").match(/<p>/g)).toHaveLength(1);
           expect(runLorem("_w20_html").match(/<p>/g)).toHaveLength(1);

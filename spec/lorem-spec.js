@@ -50,6 +50,16 @@ describe("Lorem: ", () => {
     });
   });
 
+  describe("When no text editor", () => {
+    beforeEach(() => {
+      editor.destroy();
+    });
+
+    it("should not run", () => {
+      expect(runLorem("_p2")).toEqual("lorem_p2");
+    });
+  });
+
   describe("Word Generator: ", () => {
     describe("Words:", () => {
       describe("When a count argument is given", () => {
@@ -196,12 +206,12 @@ describe("Lorem: ", () => {
       });
     });
 
-    fdescribe("HTML: ", () => {
+    describe("HTML: ", () => {
       describe("When used with word, sentence & paragraph", () => {
         it("should start and end with p tags", () => {
-          expect(runLorem("_p1_html")).toMatch(/^<p>/)
-          expect(runLorem("_p1_html")).toMatch(/<\/p>$/)
-        })
+          expect(runLorem("_p1_html")).toMatch(/^<p>/);
+          expect(runLorem("_p1_html")).toMatch(/<\/p>$/);
+        });
 
         it("should only wrap words once", () => {
           expect(runLorem("_w1_html").match(/<p>/g)).toHaveLength(1);
@@ -227,12 +237,14 @@ describe("Lorem: ", () => {
       describe("When using wrap width argument", () => {
         it("should not exceed the wrap width", () => {
           const wrapped = size =>
-            runLorem(`_p1_vlong_wrap${size}`).split("\n")[0].trim().length;
+            runLorem(`_p1_vlong_wrap${size}`)
+              .split("\n")
+              .every(str => str.trim().length <= size + 1);
 
-          expect(wrapped(10)).toBeLessThan(11);
-          expect(wrapped(20)).toBeLessThan(21);
-          expect(wrapped(30)).toBeLessThan(31);
-          expect(wrapped(40)).toBeLessThan(41);
+          expect(wrapped(20)).toBeTruthy();
+          expect(wrapped(30)).toBeTruthy();
+          expect(wrapped(40)).toBeTruthy();
+          expect(wrapped(50)).toBeTruthy();
         });
       });
 
@@ -243,7 +255,7 @@ describe("Lorem: ", () => {
       });
     });
 
-    describe("Help: ", () => {
+    xdescribe("Help: ", () => {
       it("should not change the editors text", () => {
         expect(runLorem("_help")).toMatch(/^lorem/);
         expect(runLorem("_?")).toMatch(/^lorem/);
@@ -255,12 +267,14 @@ describe("Lorem: ", () => {
 
       it("should not fail to run if string is first", () => {
         tests.forEach(test =>
-          expect(runLorem(`_${test}2`)).not.toMatch(/^lorem/));
+          expect(runLorem(`_${test}2`)).not.toMatch(/^lorem/)
+        );
       });
 
       it("should not fail to parse if number is first", () => {
         tests.forEach(test =>
-          expect(runLorem(`_2${test}`)).not.toMatch(/^lorem/));
+          expect(runLorem(`_2${test}`)).not.toMatch(/^lorem/)
+        );
       });
     });
 
@@ -388,7 +402,8 @@ describe("Lorem: ", () => {
         });
 
         regexSymbols.forEach(symbol =>
-          expect(runLorem(`${symbol}w2`)).not.toMatch(/^lorem/));
+          expect(runLorem(`${symbol}w2`)).not.toMatch(/^lorem/)
+        );
       });
     });
   });

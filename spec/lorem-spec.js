@@ -1,9 +1,15 @@
 "use babel";
 
+import { arrayOfSize } from "../lib/helpers";
 import { hasCommand, doTimes } from "./spec-helper";
 
 describe("Lorem: ", () => {
   let workspaceElement, editor, editorElement;
+
+  const runLoremCommand = () => {
+    atom.commands.dispatch(editorElement, "lorem:catch-command");
+    return editor.getText();
+  };
 
   /**
    * @param {String} command
@@ -11,8 +17,7 @@ describe("Lorem: ", () => {
    */
   const runLorem = command => {
     editor.setText(command ? "lorem" + command : "");
-    atom.commands.dispatch(editorElement, "lorem:catch-command");
-    return editor.getText();
+    return runLoremCommand();
   };
 
   beforeEach(() => {
@@ -241,7 +246,6 @@ describe("Lorem: ", () => {
               .split("\n")
               .every(str => str.trim().length <= size + 1);
 
-          expect(wrapped(20)).toBeTruthy();
           expect(wrapped(30)).toBeTruthy();
           expect(wrapped(40)).toBeTruthy();
           expect(wrapped(50)).toBeTruthy();
@@ -332,6 +336,30 @@ describe("Lorem: ", () => {
 
         expect(testStr.match(/(\w+) \w+/)[1].length).toBeGreaterThan(10);
       });
+    });
+  });
+
+  describe("Multiple Cursors: ", () => {
+    /**
+     * @param {Integer} num
+     * @param {String} cmd
+     */
+    const setCursorPositions = (num, cmd) => {
+      editor.setText("\n".repeat(num - 1));
+      arrayOfSize(num - 1).forEach((_, i) =>
+        editor.addCursorAtBufferPosition([i, 0])
+      );
+      editor.insertText("lorem_s");
+      return runLoremCommand();
+    };
+
+    it("should work", () => {
+      expect(setCursorPositions(2, "lorem_s").split("\n")).toHaveLength(2);
+      // expect(runLoremCommand().split("\n")).toHaveLength(2);
+      expect(setCursorPositions(5, "lorem_s").split("\n")).toHaveLength(5);
+      // expect(runLoremCommand().split("\n")).toHaveLength(5);
+      expect(setCursorPositions(10, "lorem_s").split("\n")).toHaveLength(10);
+      // expect(runLoremCommand().split("\n")).toHaveLength(10);
     });
   });
 

@@ -26,15 +26,15 @@ You can also add options to the lorem command with an underscore character follo
 
 ![Basic Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-basic.gif?raw=true)
 
-**_p[count]:** Inserts a certain number of random Lorem Ipsum paragraphs into the current document. The `count` option indicates how many paragraphs to insert. For example, `lorem_p3` will insert three paragraphs into the document. If the `count` option is not provided, one paragraph will be inserted. If the type of Lorem Ipsum text is not specified, the extension will generate paragraphs by default.
+**_p[count]:** Inserts a certain number of random Lorem Ipsum paragraphs into the current document. The `count` option indicates how many paragraphs to insert. For example, `lorem_p3` will insert three paragraphs into the document. If the `count` option is not provided, the default number of paragraphs will be inserted. If the type of Lorem Ipsum text is not specified, the extension will generate paragraphs by default.
 
 ![Paragraph Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-p.gif?raw=true)
 
-**_s[count]:** Inserts a certain number of random Lorem Ipsum sentences into the current document. The `count` option indicates how many sentences to insert. For example, `lorem_s3` will insert three sentences into the document. If the `count` option is not provided, one sentence will be inserted.
+**_s[count]:** Inserts a certain number of random Lorem Ipsum sentences into the current document. The `count` option indicates how many sentences to insert. For example, `lorem_s3` will insert three sentences into the document. If the `count` option is not provided, the default number of sentences will be inserted.
 
 ![Sentence Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-s.gif?raw=true)
 
-**_w[count]:** Inserts a certain number of random Lorem Ipsum words into the current document. The `count` option indicates how many words to insert. For example, `lorem_w40` will insert 40 random words into the document. If the `count` option is not provided, one word will be inserted.
+**_w[count]:** Inserts a certain number of random Lorem Ipsum words into the current document. The `count` option indicates how many words to insert. For example, `lorem_w40` will insert 40 random words into the document. If the `count` option is not provided, the default number of words will be inserted.
 
 ![Word Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-w.gif?raw=true)
 
@@ -54,15 +54,15 @@ You can also add options to the lorem command with an underscore character follo
 
 ![Wrapping Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-wraps.gif?raw=true)
 
-**_link[count]:** Inserts a certain number of random Lorem Ipsum HTML links into the current document. The HTML link will always point to https://atom.io/. The `count` option indicates how many links to insert. For example, `lorem_link3` will insert three links, separated by page breaks, into the document. If the `count` option is not provided, one link will be inserted. To avoid badly formatted HTML, the `_link` option ignores any `_wrap` options and is always set to `_nowrap`.
+**_link[count]:** Inserts a certain number of random Lorem Ipsum HTML links into the current document. The HTML link will always point to https://atom.io/. The `count` option indicates how many links to insert. For example, `lorem_link3` will insert three links, separated by page breaks, into the document. If the `count` option is not provided, the default number of links will be inserted. To avoid badly formatted HTML, the `_link` option ignores any `_wrap` options and is always set to `_nowrap`.
 
 ![Links Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-links.gif?raw=true)
 
-**_ol[count], _ul[count]:** Inserts a random Lorem Ipsum HTML list into the current document. Use `_ol` for an ordered list and `_ul` for an unordered list. The `count` option indicates how many list items to insert. For example, `lorem_ol3` will insert an ordered list with three list items into the document. If the `count` option is not provided, a list with one item will be inserted. To avoid badly formatted HTML, both of these options ignore any `_wrap` options and are always set to `_nowrap`.
+**_ol[count], _ul[count]:** Inserts a random Lorem Ipsum HTML list into the current document. Use `_ol` for an ordered list and `_ul` for an unordered list. The `count` option indicates how many list items to insert. For example, `lorem_ol3` will insert an ordered list with three list items into the document. If the `count` option is not provided, a list with the default number of items will be inserted. To avoid badly formatted HTML, both of these options ignore any `_wrap` options and are always set to `_nowrap`.
 
 ![Lists Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-lists.gif?raw=true)
 
-**_html:** Wraps Lorem Ipsum text in `<p></p>` tags so it displays correctly in HTML. For options `_p` and `_s`each individual paragraph or sentence is wrapped. For options `_w` and `_link`, the entire collection of words or links is wrapped. This option is not available for lists since lists
+**_html:** Wraps Lorem Ipsum text in `<p></p>` tags so it displays correctly in HTML. For options `_p` and `_s` each individual paragraph or sentence is wrapped. For options `_w` and `_link`, the entire collection of words or links is wrapped. This option is not available for lists since lists
 are not inline elements.
 
 ![HTML Example](https://github.com/shillingp/atom-lorem/blob/master/resources/images/lorem-html.gif?raw=true)
@@ -88,7 +88,7 @@ can also be entered with the number portion in front of the option
 ---
 
 ### Contributing
-This is my first atom package and I welcome all the help/support/feedback I can get so if you have any or would like to make a pull-request please feel free. If you do want to contribute I am using the `prettier` package to format the code. Many thanks.
+This is my first atom package and I welcome all the help/support/feedback I can get so if you have any or would like to make a pull-request please feel free. If you do want to contribute I am using `prettier` to format the code. Many thanks.
 
 ---
 

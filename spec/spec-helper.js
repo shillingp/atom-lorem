@@ -14,7 +14,8 @@ export function hasCommand(element, name) {
 }
 
 /**
+ * runs `fn` `num` times
  * @param {Integer} num
  * @param {Function} fn
  */
-export const doTimes = num => fn => arrayOfSize(num).forEach(fn);
+export const doTimes = (num, fn) => arrayOfSize(num).forEach(fn);

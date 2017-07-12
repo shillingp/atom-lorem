@@ -1,11 +1,15 @@
 "use babel";
 
-import { arrayOfSize } from "../lib/helpers";
 import { hasCommand, doTimes } from "./spec-helper";
+
+import LoremIpsum from "../lib/lorem-ipsum";
 
 describe("Lorem: ", () => {
   let workspaceElement, editor, editorElement;
 
+  /**
+   * @return {String} text content of editor
+   */
   const runLoremCommand = () => {
     atom.commands.dispatch(editorElement, "lorem:catch-command");
     return editor.getText();
@@ -13,7 +17,7 @@ describe("Lorem: ", () => {
 
   /**
    * @param {String} command
-   * @returns {String} text content of editor
+   * @returns {String}
    */
   const runLorem = command => {
     editor.setText(command ? "lorem" + command : "");
@@ -43,6 +47,13 @@ describe("Lorem: ", () => {
     it("should create the command 'catch-command'", () => {
       expect(hasCommand(editorElement, "lorem:catch-command")).toBeTruthy();
     });
+
+    it("should have at least 1 keybinding", () => {
+      const keyBind = atom.keymaps.findKeyBindings({
+        command: "lorem:catch-command",
+      })[0];
+      expect(keyBind.keystrokeArray.length).toBeGreaterThan(0);
+    });
   });
 
   describe("deactivate", () => {
@@ -52,6 +63,12 @@ describe("Lorem: ", () => {
 
     it("should destroy commands", () => {
       expect(hasCommand(editorElement, "lorem:catch-command")).toBeFalsy();
+    });
+
+    it("should not have any keybinds", () => {
+      expect(
+        atom.keymaps.findKeyBindings({ command: "lorem:catch-command" })
+      ).toHaveLength(0);
     });
   });
 
@@ -241,6 +258,10 @@ describe("Lorem: ", () => {
     describe("Wrap: ", () => {
       describe("When using wrap width argument", () => {
         it("should not exceed the wrap width", () => {
+          /**
+           * @param {Number} size
+           * @return {Boolean} is every line length less than `size`
+           */
           const wrapped = size =>
             runLorem(`_p1_vlong_wrap${size}`)
               .split("\n")
@@ -346,9 +367,9 @@ describe("Lorem: ", () => {
      */
     const setCursorPositions = (num, cmd) => {
       editor.setText("\n".repeat(num - 1));
-      arrayOfSize(num - 1).forEach((_, i) =>
-        editor.addCursorAtBufferPosition([i, 0])
-      );
+
+      doTimes(num - 1, (_, i) => editor.addCursorAtBufferPosition([i, 0]));
+
       editor.insertText("lorem_s");
       return runLoremCommand();
     };

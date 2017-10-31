@@ -362,7 +362,7 @@ describe("Lorem: ", () => {
 
   describe("Multiple Cursors: ", () => {
     /**
-     * @param {Integer} num
+     * @param {Number} num
      * @param {String} cmd
      */
     const setCursorPositions = (num, cmd) => {

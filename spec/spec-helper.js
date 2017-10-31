@@ -14,7 +14,7 @@ export const hasCommand = (element, name) =>
 
 /**
  * runs `fn` `num` times
- * @param {Integer} num
+ * @param {Number} num
  * @param {Function} fn
  */
 export const doTimes = (num, fn) => sizedArray(num).forEach(fn);

@@ -119,11 +119,13 @@ describe("Lorem Test Suite ", () => {
     describe("Sentences: ", () => {
       describe("When a single sentence is generated", () => {
         it("should have a capital letter and end in a period", () => {
-          const sentence = runLorem("_s1");
-          const firstChar = sentence.charAt(0);
+          doTimes(10, () => {
+            const sentence = runLorem("_s1");
+            const firstChar = sentence.charAt(0);
 
-          expect(firstChar === firstChar.toUpperCase()).toBeTruthy();
-          expect(sentence.charAt(sentence.length - 1)).toBe(".");
+            expect(firstChar === firstChar.toUpperCase()).toBeTruthy();
+            expect(sentence.charAt(sentence.length - 1)).toBe(".");
+          });
         });
       });
 
@@ -145,23 +147,29 @@ describe("Lorem Test Suite ", () => {
       describe("When a single paragraph is generated", () => {
         it("should have a capital letter and end in a period", () => {
           const paragraph = runLorem("_p1");
-          const firstChar = paragraph.charAt(0);
+          const firstChar = paragraph.slice(0, 1);
+          const lastChar = paragraph.slice(-1);
 
           expect(firstChar === firstChar.toUpperCase()).toBeTruthy();
-          expect(paragraph.charAt(paragraph.length - 1)).toBe(".");
+          expect(lastChar).toBe(".");
         });
       });
 
       describe("When a count argument is given", () => {
+        /**
+         * @param {String} cmd
+         * @return {String[]} array of paragraphs
+         */
+        const paragraph = cmd => runLorem(cmd).split("\n\n");
+
         it("should generate a single paragraph if no argument given", () => {
-          const paragraph = runLorem("_p1").split("\n\n");
-          expect(paragraph).toHaveLength(1);
+          expect(paragraph("_p")).toHaveLength(1);
         });
 
         it("should generate x number of paragraphs", () => {
-          expect(runLorem("_p2").split("\n\n")).toHaveLength(2);
-          expect(runLorem("_p5").split("\n\n")).toHaveLength(5);
-          expect(runLorem("_p10").split("\n\n")).toHaveLength(10);
+          expect(paragraph("_p2")).toHaveLength(2);
+          expect(paragraph("_p5")).toHaveLength(5);
+          expect(paragraph("_p10")).toHaveLength(10);
         });
       });
     });
@@ -314,6 +322,7 @@ describe("Lorem Test Suite ", () => {
         atom.notifications.clear();
 
         tests.forEach(test => runLorem(test));
+
         expect(atom.notifications.getNotifications()).toHaveLength(
           tests.length,
         );
@@ -365,24 +374,69 @@ describe("Lorem Test Suite ", () => {
     });
   });
 
+  describe("Commented Rows: ", () => {
+    beforeEach(() => {
+      waitsForPromise(() =>
+        Promise.all([
+          atom.packages.activatePackage("language-javascript"),
+          atom.packages.activatePackage("language-coffee-script"),
+        ]),
+      );
+    });
+
+    /**
+     * @param {String} grammarExt
+     * @return {Grammar} the grammar for 'grammarExt'
+     */
+    const getGrammar = grammerExt =>
+      atom.grammars.grammarForScopeName("source" + grammerExt);
+
+    /**
+     * @param {String} commentSyntax
+     * @return {Boolean} is every line a comment
+     */
+    const isComment = commentSyntax =>
+      runLoremCommand()
+        .split("\n")
+        .every(s => s.startsWith(commentSyntax));
+
+    it("should comment out in javascript", () => {
+      editor.setText("// this is a comment lorem_p1");
+
+      const jsGrammar = getGrammar(".js");
+      editor.setGrammar(jsGrammar);
+
+      expect(isComment("//")).toEqual(true);
+    });
+
+    it("should comment out in coffeescript", () => {
+      editor.setText("# this is a comment lorem_p1");
+
+      const coffeeGrammar = getGrammar(".coffee");
+      editor.setGrammar(coffeeGrammar);
+
+      expect(isComment("#")).toEqual(true);
+    });
+  });
+
   describe("Multiple Cursors: ", () => {
     /**
      * @param {Number} num
      * @param {String} cmd
      */
-    const setCursorPositions = (num, cmd) => {
+    const setCursorPositions = (num, cmd = "lorem_s") => {
       editor.setText("\n".repeat(num - 1));
 
       doTimes(num - 1, (_, i) => editor.addCursorAtBufferPosition([i, 0]));
 
       editor.insertText("lorem_s");
-      return runLoremCommand();
+      return runLoremCommand().split("\n");
     };
 
-    it("should work", () => {
-      expect(setCursorPositions(2, "lorem_s").split("\n")).toHaveLength(2);
-      expect(setCursorPositions(5, "lorem_s").split("\n")).toHaveLength(5);
-      expect(setCursorPositions(10, "lorem_s").split("\n")).toHaveLength(10);
+    it("should insert text at every cursor", () => {
+      expect(setCursorPositions(2)).toHaveLength(2);
+      expect(setCursorPositions(5)).toHaveLength(5);
+      expect(setCursorPositions(10)).toHaveLength(10);
     });
   });
 

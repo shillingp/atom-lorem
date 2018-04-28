@@ -4,7 +4,6 @@
   "version": "1.3.0",
   "description": "Simple lorem ipsum text generator with added functionality",
   "keywords": ["lorem", "lorem-ipsum", "ipsum", "text", "generator"],
-  "activationCommands": { "atom-workspace": "lorem:catch-command" },
   "repository": "https://github.com/shillingp/atom-lorem",
   "license": "MIT",
   "engines": {

@@ -18,3 +18,18 @@ export const hasCommand = (element, name) =>
  * @param {Function} fn
  */
 export const doTimes = (num, fn) => sizedArray(num).forEach(fn);
+
+/**
+ * @param {String} grammarExt
+ * @return {Grammar} the grammar for 'grammarExt'
+ */
+export const getGrammar = grammarExt =>
+  atom.grammars.grammarForScopeName("source" + grammarExt);
+
+/**
+ * @param {String} path
+ * @param {Object} newProps
+ * @returns {Boolean}
+ */
+export const updateConfig = (path, newProps) =>
+  atom.config.set(path, { ...atom.config.get(path), ...newProps });

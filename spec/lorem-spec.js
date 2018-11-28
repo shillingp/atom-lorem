@@ -1,6 +1,6 @@
 "use babel";
 
-import { hasCommand, doTimes } from "./spec-helper";
+import { hasCommand, doTimes, getGrammar, updateConfig } from "./spec-helper";
 import LoremIpsum from "../lib/lorem-ipsum";
 
 describe("Lorem Test Suite ", () => {
@@ -24,6 +24,10 @@ describe("Lorem Test Suite ", () => {
     return runLoremCommand();
   };
 
+  /**
+   * before each test attach jasmine to an editor workspace
+   * activate the lorem package and initiate it
+   */
   beforeEach(() => {
     workspaceElement = atom.views.getView(atom.workspace);
     jasmine.attachToDOM(workspaceElement);
@@ -286,7 +290,7 @@ describe("Lorem Test Suite ", () => {
         });
       });
 
-      xdescribe("No Wrap: ", () => {
+      describe("No Wrap: ", () => {
         it("should not have any linebreaks if nowrap", () => {
           expect(runLorem("_p1_vlong_nowrap").match(/\n/g)).toBe(null);
         });
@@ -385,13 +389,6 @@ describe("Lorem Test Suite ", () => {
     });
 
     /**
-     * @param {String} grammarExt
-     * @return {Grammar} the grammar for 'grammarExt'
-     */
-    const getGrammar = grammerExt =>
-      atom.grammars.grammarForScopeName("source" + grammerExt);
-
-    /**
      * @param {String} commentSyntax
      * @return {Boolean} is every line a comment
      */
@@ -441,14 +438,6 @@ describe("Lorem Test Suite ", () => {
   });
 
   describe("Configuration: ", () => {
-    /**
-     * @param {String} path
-     * @param {Object} newProps
-     * @returns {Boolean}
-     */
-    const updateConfig = (path, newProps) =>
-      atom.config.set(path, { ...atom.config.get(path), ...newProps });
-
     it("should use the defaults to generate text", test => {
       updateConfig("lorem.defaults", {
         unitType: "Word",

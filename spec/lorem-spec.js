@@ -245,6 +245,26 @@ describe("Lorem Test Suite ", () => {
       });
     });
 
+    describe("Single line: ", () => {
+      describe("When used with anything", () => {
+        it("should only produce 1 line", () => {
+          const params = [
+            "",
+            "_html",
+            "_w3",
+            "_s3",
+            "_p3",
+            "_ol5",
+            "_link",
+            "_p3_html_short",
+          ];
+          params.forEach(s => {
+            expect(runLorem("_line" + s).match("\n\n")).toBe(null);
+          });
+        });
+      });
+    });
+
     describe("HTML: ", () => {
       describe("When used with word, sentence & paragraph", () => {
         it("should start and end with p tags", () => {

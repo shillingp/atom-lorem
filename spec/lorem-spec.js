@@ -186,6 +186,17 @@ describe("Lorem Test Suite ", () => {
         expect(link).toMatch(/<\/a>$/g);
       });
 
+      it("should insert a link based on the config", () => {
+        const URLs = ["http://atom.io", "http://github.com", "thisisaURL", ""];
+
+        URLs.forEach(url => {
+          updateConfig("lorem.defaults", { linkURL: url });
+          const link = runLorem("_link1").match(/<a href="(.*)">/);
+
+          expect(link[1]).toEqual(url);
+        });
+      });
+
       describe("When a count argument is given", () => {
         it("should generate x number of list items", () => {
           expect(runLorem("_link2").match(/<a.*>/g)).toHaveLength(2);
@@ -259,7 +270,7 @@ describe("Lorem Test Suite ", () => {
             "_p3_html_short",
           ];
           params.forEach(s => {
-            expect(runLorem("_line" + s).match("\n\n")).toBe(null);
+            expect(runLorem("_line" + s)).not.toMatch("\n\n");
           });
         });
       });
@@ -472,6 +483,11 @@ describe("Lorem Test Suite ", () => {
       expect(runLorem()).toMatch(
         /^<p>[\s\n\t]+(?:(?:\w{10,} ?){3})[\s\n\t]+<\/p>$/,
       );
+
+      updateConfig("lorem.defaults", {
+        isInline: true,
+      });
+      expect(runLorem()).not.toMatch("\n\n");
     });
 
     describe("When seperators changed in config", () => {
